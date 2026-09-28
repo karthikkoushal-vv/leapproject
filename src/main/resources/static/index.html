@@ -1,544 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodShare - Surplus Food Donation Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #ecfdf5;
-            --accent: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            padding: 24px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            color: white;
-            padding: 24px 32px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.2);
-            margin-bottom: 28px;
-        }
-
-        header h1 {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        header p {
-            color: #d1fae5;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        .badge-live {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge-live::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background-color: #34d399;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #34d399;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 900px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .card-header h2 {
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            background: #fff;
-            transition: border-color 0.2s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-        }
-
-        .btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-claim {
-            width: auto;
-            padding: 6px 14px;
-            font-size: 13px;
-            background: #2563eb;
-        }
-
-        .btn-claim:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-collect {
-            width: auto;
-            padding: 6px 14px;
-            font-size: 13px;
-            background: #059669;
-        }
-
-        .item-card {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: #fafafa;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.1s;
-        }
-
-        .item-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .item-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--text-main);
-        }
-
-        .item-meta {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-right: 4px;
-        }
-
-        .tag-veg { background: #dcfce7; color: #15803d; }
-        .tag-nonveg { background: #fee2e2; color: #b91c1c; }
-        .tag-available { background: #dbeafe; color: #1e40af; }
-        .tag-claimed { background: #fef3c7; color: #92400e; }
-        .tag-collected { background: #d1fae5; color: #065f46; }
-
-        .stat-banner {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            text-align: center;
-        }
-
-        .stat-box h3 {
-            font-size: 32px;
-            color: #34d399;
-            font-weight: 700;
-        }
-
-        .stat-box p {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        .alert {
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            font-size: 13px;
-            display: none;
-        }
-        .alert-success { background: #d1fae5; color: #065f46; display: block; }
-        .alert-error { background: #fee2e2; color: #991b1b; display: block; }
-    </style>
+<meta charset="UTF-8" />
+<title>FoodShare — Surplus Food Donation Matching &amp; Waste Diversion Platform</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div>
-            <h1>🍲 FoodShare Platform</h1>
-            <p>Surplus Food Donation Matching & Waste Diversion System</p>
-        </div>
-        <div class="badge-live">Backend Online: Port 8080</div>
-    </header>
+<header>
+  <div>
+    <h1>🍲 FoodShare Resource Management</h1>
+    <p>Surplus Food Donation Matching &amp; Automated Waste Diversion Platform</p>
+  </div>
+  <div class="header-badge">● System Online</div>
+</header>
 
-    <div class="grid">
+<nav>
+  <button class="tab-btn active" data-tab="listings">Surplus Food Listings</button>
+  <button class="tab-btn" data-tab="donors">Donors</button>
+  <button class="tab-btn" data-tab="ngos">NGOs &amp; Shelters</button>
+  <button class="tab-btn" data-tab="claims">Claim / Collect Food</button>
+  <button class="tab-btn" data-tab="analytics">Waste Diversion Analytics</button>
+</nav>
 
-        <!-- STATS CARD -->
-        <div class="stat-banner">
-            <div class="stat-box">
-                <h3 id="stat-diverted">0</h3>
-                <p>Total Units Diverted From Waste</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="stat-listings">0</h3>
-                <p>Food Donations Collected</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="stat-active">0</h3>
-                <p>Available Surplus Foods</p>
-            </div>
-        </div>
+<main>
 
-        <!-- FEATURE 1: LIST FOOD -->
-        <div class="card">
-            <div class="card-header">
-                <h2>➕ 1. Donor: List Surplus Food</h2>
-            </div>
-            <div id="form-msg" class="alert"></div>
-            <form id="food-form">
-                <div class="form-group">
-                    <label>Select Donor</label>
-                    <select id="donorSelect" required>
-                        <option value="1">Campus Central Canteen</option>
-                        <option value="2">Grand Feast Caterers</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Food Name</label>
-                    <input type="text" id="foodName" placeholder="e.g. Surplus Veg Meals, Sambar Sadham" required />
-                </div>
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0;">
-                    <div class="form-group">
-                        <label>Food Type</label>
-                        <select id="foodType">
-                            <option value="VEG">VEG</option>
-                            <option value="NON_VEG">NON_VEG</option>
-                            <option value="COOKED">COOKED</option>
-                            <option value="RAW">RAW</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity & Unit</label>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="number" id="quantity" placeholder="Qty" min="1" required style="width: 55%;" />
-                            <input type="text" id="unit" placeholder="Unit (kg/plates)" required style="width: 45%;" value="kg" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Safe To Eat Until (Expiry Window)</label>
-                    <input type="datetime-local" id="safeUntil" required />
-                </div>
-                <button type="submit" class="btn">🚀 List Surplus Food</button>
-            </form>
-        </div>
+  <!-- 1. SURPLUS FOOD LISTINGS -->
+  <section id="listings" class="tab-content active">
+    <h2>Manage Surplus Food Listings</h2>
+    <div id="listingAlert" class="alert-box"></div>
+    <form id="listingForm">
+      <input type="hidden" id="listingId" />
+      <select id="listingDonorId" required>
+        <option value="">-- Select Donor --</option>
+      </select>
+      <input type="text" id="foodName" placeholder="Food Name (e.g. Veg Meals, Biryani)" required />
+      <select id="foodType" required>
+        <option value="VEG">VEG</option>
+        <option value="NON_VEG">NON_VEG</option>
+        <option value="COOKED">COOKED</option>
+        <option value="RAW">RAW</option>
+      </select>
+      <input type="number" id="quantity" placeholder="Quantity (e.g. 50)" step="0.5" min="1" required />
+      <input type="text" id="unit" placeholder="Unit (kg / plates / packets)" value="kg" required />
+      <input type="datetime-local" id="safeToEatUntil" title="Safe to eat until (Expiry time)" required />
+      <button type="submit">Save Food Listing</button>
+      <button type="button" id="cancelListingEdit">Cancel</button>
+    </form>
+    <table id="listingsTable">
+      <thead>
+        <tr>
+          <th>ID</th><th>Food Name</th><th>Type</th><th>Quantity</th><th>Unit</th>
+          <th>Donor</th><th>Safe Until</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-        <!-- FEATURE 2: AVAILABLE LISTINGS & CLAIM -->
-        <div class="card">
-            <div class="card-header">
-                <h2>📋 2. NGO: Browse & Claim Available Food</h2>
-                <button onclick="loadAvailableListings()" style="background:none; border:none; cursor:pointer; color: var(--primary); font-weight:600; font-size:13px;">🔄 Refresh</button>
-            </div>
-            <div class="form-group">
-                <label>Select Your NGO (Claiming As)</label>
-                <select id="ngoSelect">
-                    <option value="1">Anbu Karangal Shelter (ID: 1)</option>
-                    <option value="2">Food For All Foundation (ID: 2)</option>
-                </select>
-            </div>
-            <div id="available-container">
-                <p style="color: var(--text-muted); font-size: 13px;">Loading available foods...</p>
-            </div>
-        </div>
+  <!-- 2. DONORS -->
+  <section id="donors" class="tab-content">
+    <h2>Manage Donors (Canteens &amp; Caterers)</h2>
+    <div id="donorAlert" class="alert-box"></div>
+    <form id="donorForm">
+      <input type="hidden" id="donorId" />
+      <input type="text" id="donorName" placeholder="Donor Name (e.g. Campus Canteen)" required />
+      <input type="email" id="donorEmail" placeholder="Email" required />
+      <input type="text" id="donorPhone" placeholder="Phone Number" required />
+      <input type="text" id="donorAddress" placeholder="Address" required />
+      <button type="submit">Save Donor</button>
+      <button type="button" id="cancelDonorEdit">Cancel</button>
+    </form>
+    <table id="donorsTable">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Actions</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-        <!-- FEATURE 3: ACTIVE CLAIMS & MARK COLLECTED -->
-        <div class="card" style="grid-column: 1 / -1;">
-            <div class="card-header">
-                <h2>🚚 3. Active Claims & Mark Collected (Pick Up)</h2>
-                <button onclick="loadClaims()" style="background:none; border:none; cursor:pointer; color: var(--primary); font-weight:600; font-size:13px;">🔄 Refresh</button>
-            </div>
-            <div id="claims-container">
-                <p style="color: var(--text-muted); font-size: 13px;">Loading claims...</p>
-            </div>
-        </div>
+  <!-- 3. NGOS -->
+  <section id="ngos" class="tab-content">
+    <h2>Manage NGOs &amp; Shelters</h2>
+    <div id="ngoAlert" class="alert-box"></div>
+    <form id="ngoForm">
+      <input type="hidden" id="ngoId" />
+      <input type="text" id="ngoName" placeholder="NGO Name (e.g. Anbu Karangal)" required />
+      <input type="text" id="contactPerson" placeholder="Contact Person" required />
+      <input type="email" id="ngoEmail" placeholder="Email" required />
+      <input type="text" id="ngoPhone" placeholder="Phone Number" required />
+      <input type="text" id="ngoAddress" placeholder="Address" required />
+      <button type="submit">Save NGO</button>
+      <button type="button" id="cancelNgoEdit">Cancel</button>
+    </form>
+    <table id="ngosTable">
+      <thead>
+        <tr><th>ID</th><th>NGO Name</th><th>Contact Person</th><th>Email</th><th>Phone</th><th>Address</th><th>Actions</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
+  <!-- 4. CLAIM / COLLECT FOOD -->
+  <section id="claims" class="tab-content">
+    <h2>Claim &amp; Collect Surplus Food</h2>
+    <div id="claimAlert" class="alert-box"></div>
+    <form id="claimForm">
+      <select id="claimListingId" required>
+        <option value="">-- Select Available Food Listing --</option>
+      </select>
+      <select id="claimNgoId" required>
+        <option value="">-- Select Claiming NGO --</option>
+      </select>
+      <button type="submit">Claim Food</button>
+    </form>
+    <table id="claimsTable">
+      <thead>
+        <tr>
+          <th>Claim ID</th><th>Food Listing ID</th><th>Food Name</th><th>Quantity</th>
+          <th>Claiming NGO</th><th>Claimed At</th><th>Status</th><th>Collected At</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- 5. WASTE DIVERSION & ANALYTICS -->
+  <section id="analytics" class="tab-content">
+    <h2>Surplus Food Diverted From Waste (Monthly Analytics)</h2>
+    <button id="refreshAnalytics">Refresh Analytics</button>
+
+    <div class="analytics-cards">
+      <div class="analytics-card">
+        <h3 id="statTotalQuantity">0</h3>
+        <p>Total Food Units Diverted</p>
+      </div>
+      <div class="analytics-card">
+        <h3 id="statTotalListings">0</h3>
+        <p>Food Listings Rescued</p>
+      </div>
+      <div class="analytics-card">
+        <h3 id="statSummaryMonth">-</h3>
+        <p>Reporting Period</p>
+      </div>
     </div>
-</div>
 
-<script>
-    // Set default safe-to-eat time to +3 hours from now
-    const now = new Date();
-    now.setHours(now.getHours() + 3);
-    document.getElementById('safeUntil').value = now.toISOString().slice(0, 16);
+    <table id="analyticsTable">
+      <thead>
+        <tr>
+          <th>Claim ID</th><th>Food Listing ID</th><th>Food Rescued</th><th>Quantity</th>
+          <th>Rescued By (NGO)</th><th>Pickup Date &amp; Time</th><th>Impact</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-    async function loadStats() {
-        try {
-            const res = await fetch('/api/analytics/monthly-diverted');
-            if (res.ok) {
-                const data = await res.json();
-                document.getElementById('stat-diverted').innerText = data.totalQuantityDiverted;
-                document.getElementById('stat-listings').innerText = data.totalListingsDiverted;
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
+</main>
 
-    async function loadAvailableListings() {
-        const container = document.getElementById('available-container');
-        try {
-            const res = await fetch('/api/listings/available');
-            const listings = await res.json();
-            document.getElementById('stat-active').innerText = listings.length;
-
-            if (listings.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">No available food listings at the moment. Create one on the left!</p>';
-                return;
-            }
-
-            container.innerHTML = listings.map(l => `
-                <div class="item-card">
-                    <div>
-                        <div class="item-title">${l.foodName}</div>
-                        <div class="item-meta">
-                            <span class="tag ${l.foodType === 'VEG' ? 'tag-veg' : 'tag-nonveg'}">${l.foodType}</span>
-                            <strong>${l.quantity} ${l.unit}</strong> | Donor: ${l.donorName}
-                        </div>
-                        <div class="item-meta" style="color: #ea580c; font-size: 12px;">
-                            ⏰ Safe until: ${new Date(l.safeToEatUntil).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-claim" onclick="claimFood(${l.id})">✋ Claim</button>
-                    </div>
-                </div>
-            `).join('');
-        } catch (e) {
-            container.innerHTML = '<p style="color: var(--danger); font-size: 13px;">Failed to load listings.</p>';
-        }
-    }
-
-    async function loadClaims() {
-        const container = document.getElementById('claims-container');
-        try {
-            const res = await fetch('/api/claims');
-            const claims = await res.json();
-
-            if (claims.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px;">No active claims yet. Claim an available food above!</p>';
-                return;
-            }
-
-            container.innerHTML = claims.map(c => `
-                <div class="item-card">
-                    <div>
-                        <div class="item-title">${c.foodName} (${c.quantity} ${c.unit})</div>
-                        <div class="item-meta">
-                            Claimed by: <strong>${c.ngoName}</strong> | Status: 
-                            <span class="tag ${c.status === 'COLLECTED' ? 'tag-collected' : 'tag-claimed'}">${c.status}</span>
-                        </div>
-                        <div class="item-meta" style="font-size: 12px;">
-                            Claimed at: ${new Date(c.claimedAt).toLocaleTimeString()}
-                            ${c.collectedAt ? ' | Collected at: ' + new Date(c.collectedAt).toLocaleTimeString() : ''}
-                        </div>
-                    </div>
-                    <div>
-                        ${c.status === 'ACTIVE' 
-                            ? `<button class="btn btn-collect" onclick="collectClaim(${c.id})">✅ Mark Collected</button>` 
-                            : `<span style="color: var(--primary-dark); font-weight: 600; font-size: 13px;">✔ Saved from Waste</span>`
-                        }
-                    </div>
-                </div>
-            `).join('');
-        } catch (e) {
-            container.innerHTML = '<p style="color: var(--danger); font-size: 13px;">Failed to load claims.</p>';
-        }
-    }
-
-    // Submit Food Listing
-    document.getElementById('food-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const msg = document.getElementById('form-msg');
-        msg.className = 'alert';
-        msg.style.display = 'none';
-
-        const payload = {
-            donorId: parseInt(document.getElementById('donorSelect').value),
-            foodName: document.getElementById('foodName').value,
-            foodType: document.getElementById('foodType').value,
-            quantity: parseFloat(document.getElementById('quantity').value),
-            unit: document.getElementById('unit').value,
-            safeToEatUntil: document.getElementById('safeUntil').value + ':00'
-        };
-
-        try {
-            const res = await fetch('/api/listings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-                msg.className = 'alert alert-success';
-                msg.innerText = '✅ Food Listing created successfully!';
-                document.getElementById('foodName').value = '';
-                document.getElementById('quantity').value = '';
-                loadAvailableListings();
-                loadStats();
-            } else {
-                const err = await res.json();
-                msg.className = 'alert alert-error';
-                msg.innerText = '❌ Error: ' + (err.message || 'Validation failed');
-            }
-        } catch (err) {
-            msg.className = 'alert alert-error';
-            msg.innerText = '❌ Connection failed!';
-        }
-    });
-
-    async function claimFood(listingId) {
-        const ngoId = parseInt(document.getElementById('ngoSelect').value);
-        try {
-            const res = await fetch('/api/claims', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ listingId, ngoId })
-            });
-
-            const data = await res.json();
-            if (res.ok) {
-                alert('🎉 Food Claimed successfully!');
-                loadAvailableListings();
-                loadClaims();
-            } else {
-                alert('⚠️ Business Rule Rejection: ' + data.message);
-            }
-        } catch (e) {
-            alert('Failed to connect.');
-        }
-    }
-
-    async function collectClaim(claimId) {
-        try {
-            const res = await fetch(`/api/claims/${claimId}/collect`, { method: 'PUT' });
-            if (res.ok) {
-                alert('✅ Food marked as COLLECTED and diverted from waste!');
-                loadClaims();
-                loadStats();
-            }
-        } catch (e) {
-            alert('Failed to update.');
-        }
-    }
-
-    // Initial Load
-    loadStats();
-    loadAvailableListings();
-    loadClaims();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

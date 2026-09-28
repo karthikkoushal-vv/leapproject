@@ -37,4 +37,18 @@ public class DonorService {
         return donorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Donor not found with ID: " + id));
     }
+
+    public Donor updateDonor(Long id, DonorRequest request) {
+        Donor donor = getDonorById(id);
+        donor.setName(request.getName());
+        donor.setEmail(request.getEmail());
+        donor.setPhone(request.getPhone());
+        donor.setAddress(request.getAddress());
+        return donorRepository.save(donor);
+    }
+
+    public void deleteDonor(Long id) {
+        Donor donor = getDonorById(id);
+        donorRepository.delete(donor);
+    }
 }

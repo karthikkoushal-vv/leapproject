@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ngos")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class NGOController {
 
@@ -32,5 +33,16 @@ public class NGOController {
     @GetMapping("/{id}")
     public ResponseEntity<NGO> getNGOById(@PathVariable Long id) {
         return ResponseEntity.ok(ngoService.getNGOById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<NGO> updateNGO(@PathVariable Long id, @Valid @RequestBody NGORequest request) {
+        return ResponseEntity.ok(ngoService.updateNGO(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNGO(@PathVariable Long id) {
+        ngoService.deleteNGO(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -38,4 +38,19 @@ public class NGOService {
         return ngoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("NGO not found with ID: " + id));
     }
+
+    public NGO updateNGO(Long id, NGORequest request) {
+        NGO ngo = getNGOById(id);
+        ngo.setName(request.getName());
+        ngo.setContactPerson(request.getContactPerson());
+        ngo.setEmail(request.getEmail());
+        ngo.setPhone(request.getPhone());
+        ngo.setAddress(request.getAddress());
+        return ngoRepository.save(ngo);
+    }
+
+    public void deleteNGO(Long id) {
+        NGO ngo = getNGOById(id);
+        ngoRepository.delete(ngo);
+    }
 }

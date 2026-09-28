@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/donors")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class DonorController {
 
@@ -32,5 +33,16 @@ public class DonorController {
     @GetMapping("/{id}")
     public ResponseEntity<Donor> getDonorById(@PathVariable Long id) {
         return ResponseEntity.ok(donorService.getDonorById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Donor> updateDonor(@PathVariable Long id, @Valid @RequestBody DonorRequest request) {
+        return ResponseEntity.ok(donorService.updateDonor(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDonor(@PathVariable Long id) {
+        donorService.deleteDonor(id);
+        return ResponseEntity.noContent().build();
     }
 }

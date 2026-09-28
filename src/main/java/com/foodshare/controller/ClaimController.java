@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/claims")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ClaimController {
 

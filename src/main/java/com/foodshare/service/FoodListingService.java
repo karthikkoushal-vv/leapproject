@@ -72,6 +72,28 @@ public class FoodListingService {
         return mapToResponse(listing);
     }
 
+    @Transactional
+    public FoodListingResponse updateListing(Long id, FoodListingRequest request) {
+        FoodListing listing = foodListingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Food listing not found with ID: " + id));
+        Donor donor = donorRepository.findById(request.getDonorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Donor not found with ID: " + request.getDonorId()));
+        listing.setDonor(donor);
+        listing.setFoodName(request.getFoodName());
+        listing.setFoodType(request.getFoodType());
+        listing.setQuantity(request.getQuantity());
+        listing.setUnit(request.getUnit());
+        listing.setSafeToEatUntil(request.getSafeToEatUntil());
+        return mapToResponse(foodListingRepository.save(listing));
+    }
+
+    @Transactional
+    public void deleteListing(Long id) {
+        FoodListing listing = foodListingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Food listing not found with ID: " + id));
+        foodListingRepository.delete(listing);
+    }
+
     public FoodListingResponse mapToResponse(FoodListing listing) {
         return FoodListingResponse.builder()
                 .id(listing.getId())

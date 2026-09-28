@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/listings")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class FoodListingController {
 
@@ -41,5 +42,19 @@ public class FoodListingController {
     @GetMapping("/{id}")
     public ResponseEntity<FoodListingResponse> getListingById(@PathVariable Long id) {
         return ResponseEntity.ok(foodListingService.getListingById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FoodListingResponse> updateListing(
+            @PathVariable Long id,
+            @Valid @RequestBody FoodListingRequest request
+    ) {
+        return ResponseEntity.ok(foodListingService.updateListing(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
+        foodListingService.deleteListing(id);
+        return ResponseEntity.noContent().build();
     }
 }
